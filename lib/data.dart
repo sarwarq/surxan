@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:surxan/screens/Asosiy.dart';
 import 'package:surxan/screens/Dokon.dart';
@@ -9,7 +7,7 @@ import 'package:surxan/screens/Omborxona.dart';
 import 'package:surxan/screens/Xizmat.dart';
 import 'package:surxan/screens/Xodimlar.dart';
 
-Color? backgroundColor = const Color.fromARGB(25, 187, 222, 251);
+Color? backgroundColor = const Color.fromARGB(246, 231, 236, 240);
 Color? textcolor = const Color.fromARGB(255, 8, 31, 71);
 
 List mainscreenIcon = [

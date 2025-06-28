@@ -50,7 +50,7 @@ class _KirimState extends State<Kirim> {
                         "${kirimlar[index].money.toInt().toString()}",
                         style: TextStyle(
                           color: textcolor,
-                          fontSize: size.height * 0.03,
+                          fontSize: size.width * 0.02,
                         ),
                       ),
                       SizedBox(width: size.width * 0.003),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:surxan/data.dart';
 import 'package:surxan/home.dart';
 
@@ -11,10 +12,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: const Color.fromARGB(246, 231, 236, 240)),
-      home: Home(),
+    return ScreenUtilInit(
+      designSize: Size(2560, 1540),
+
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(scaffoldBackgroundColor: backgroundColor),
+        home: Home(),
+      ),
     );
   }
 }
