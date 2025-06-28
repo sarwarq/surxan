@@ -50,7 +50,7 @@ class _KirimState extends State<Kirim> {
                         "${kirimlar[index].money.toInt().toString()}",
                         style: TextStyle(
                           color: textcolor,
-                          fontSize: size.width * 0.02,
+                          fontSize: size.height * 0.032,
                         ),
                       ),
                       SizedBox(width: size.width * 0.003),
@@ -60,7 +60,7 @@ class _KirimState extends State<Kirim> {
                           "So'm",
                           style: TextStyle(
                             color: textcolor,
-                            fontSize: size.width * 0.011,
+                            fontSize: size.height * 0.021,
                           ),
                         ),
                       ),
@@ -70,7 +70,7 @@ class _KirimState extends State<Kirim> {
                     kirimlar[index].product,
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: size.width * 0.0069,
+                      fontSize: size.height * 0.012,
                     ),
                   ),
                 ],

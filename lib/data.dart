@@ -43,12 +43,12 @@ List<BoxShadow> boxshadow = [
   BoxShadow(color: Colors.black12, blurRadius: 5, offset: Offset(2, 2)),
 ];
 
-class Product {
+class Services {
   String icon;
   double money;
   String product;
   List<Color?> productcolor = [];
-  Product({
+  Services({
     required this.icon,
     required this.money,
     required this.product,
@@ -56,20 +56,20 @@ class Product {
   });
 }
 
-List<Product> kirimlar = [
-  Product(
+List<Services> kirimlar = [
+  Services(
     icon: "assets/icons/main/Service.png",
     money: 0,
     product: "Xizmat",
     productcolor: [Colors.blue[200], Colors.blue[900]],
   ),
-  Product(
+  Services(
     icon: "assets/icons/main/Shop.png",
     money: 0,
     product: "Savdo",
     productcolor: [Colors.yellow[200], Colors.yellow[900]],
   ),
-  Product(
+  Services(
     icon: "assets/icons/main/Phone.png",
     money: 0,
     product: "Kassa aparat",

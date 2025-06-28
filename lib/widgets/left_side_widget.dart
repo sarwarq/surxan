@@ -29,7 +29,7 @@ class _LeftSideState extends State<LeftSide> {
 
             Container(height: size.height * 0.5, child: LeftBar()),
 
-            SizedBox(height: size.height * 0.3),
+            Expanded(child: SizedBox()),
 
             InkWell(
               onTap: () {},

@@ -148,46 +148,48 @@ class Asosiy extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
-                  height: size.height * 0.81,
-                  width: size.width * 0.229,
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: boxshadow,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Oraliqni tanlang",
-                        style: TextStyle(
-                          fontSize: size.height * 0.027,
-                          fontWeight: FontWeight.bold,
-                          color: textcolor,
+                SizedBox(width: 15,),
+                Expanded(
+                  child: Container(
+                    height: size.height * 0.81,
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: boxshadow,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Oraliqni tanlang",
+                          style: TextStyle(
+                            fontSize: size.height * 0.027,
+                            fontWeight: FontWeight.bold,
+                            color: textcolor,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: size.height * 0.01),
-                      Container(
-                        height: size.height * 0.29,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: boxshadow
+                        SizedBox(height: size.height * 0.01),
+                        Container(
+                          height: size.height * 0.29,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: boxshadow
+                          ),
+                          child: SfDateRangePicker(
+                            selectionMode:
+                                DateRangePickerSelectionMode.multiRange,
+                            selectionColor: Colors.blueAccent,
+                            rangeSelectionColor: Colors.lightBlue.withOpacity(0.3),
+                            endRangeSelectionColor: Colors.blue,
+                            startRangeSelectionColor: Colors.blue,
+                            backgroundColor: Colors.transparent,
+                            headerStyle: DateRangePickerHeaderStyle(backgroundColor: Colors.transparent),
+                          ),
                         ),
-                        child: SfDateRangePicker(
-                          selectionMode:
-                              DateRangePickerSelectionMode.multiRange,
-                          selectionColor: Colors.blueAccent,
-                          rangeSelectionColor: Colors.lightBlue.withOpacity(0.3),
-                          endRangeSelectionColor: Colors.blue,
-                          startRangeSelectionColor: Colors.blue,
-                          backgroundColor: Colors.transparent,
-                          headerStyle: DateRangePickerHeaderStyle(backgroundColor: Colors.transparent),
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.01),
-                      Expanded(child: Kirim(scroll: Axis.vertical,))
-                    ],
+                        SizedBox(height: size.height * 0.01),
+                        Expanded(child: Kirim(scroll: Axis.vertical,))
+                      ],
+                    ),
                   ),
                 ),
               ],
