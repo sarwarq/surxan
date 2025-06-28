@@ -47,7 +47,7 @@ class _KirimState extends State<Kirim> {
                   Row(
                     children: [
                       Text(
-                        "${kirimlar[index].money.toString()}",
+                        "${kirimlar[index].money.toInt().toString()}",
                         style: TextStyle(
                           color: textcolor,
                           fontSize: size.height * 0.03,
