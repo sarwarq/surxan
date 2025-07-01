@@ -4,9 +4,14 @@ import 'package:surxan/widgets/chart_widget.dart';
 import 'package:surxan/widgets/kirim.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class Asosiy extends StatelessWidget {
+class Asosiy extends StatefulWidget {
   const Asosiy({super.key});
 
+  @override
+  State<Asosiy> createState() => _AsosiyState();
+}
+
+class _AsosiyState extends State<Asosiy> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -98,7 +103,7 @@ class Asosiy extends StatelessWidget {
                     SizedBox(
                       height: size.height * 0.1,
                       width: size.width * 0.55,
-                      child: Kirim(scroll: Axis.horizontal,),
+                      child: Kirim(scroll: Axis.horizontal),
                     ),
                     Container(
                       height: size.height * 0.35,
@@ -148,7 +153,7 @@ class Asosiy extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(width: 15,),
+                SizedBox(width: 15),
                 Expanded(
                   child: Container(
                     height: size.height * 0.81,
@@ -173,21 +178,26 @@ class Asosiy extends StatelessWidget {
                           height: size.height * 0.29,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            boxShadow: boxshadow
+                            boxShadow: boxshadow,
                           ),
                           child: SfDateRangePicker(
                             selectionMode:
                                 DateRangePickerSelectionMode.multiRange,
                             selectionColor: Colors.blueAccent,
-                            rangeSelectionColor: Colors.lightBlue.withOpacity(0.3),
+                            rangeSelectionColor: Colors.lightBlue.withOpacity(
+                              0.3,
+                            ),
                             endRangeSelectionColor: Colors.blue,
                             startRangeSelectionColor: Colors.blue,
                             backgroundColor: Colors.transparent,
-                            headerStyle: DateRangePickerHeaderStyle(backgroundColor: Colors.transparent),
+                            headerStyle: DateRangePickerHeaderStyle(
+                              backgroundColor: Colors.transparent,
+                            ),
+                           
                           ),
                         ),
                         SizedBox(height: size.height * 0.01),
-                        Expanded(child: Kirim(scroll: Axis.vertical,))
+                        Expanded(child: Kirim(scroll: Axis.vertical)),
                       ],
                     ),
                   ),

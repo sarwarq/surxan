@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:surxan/data.dart';
-import 'package:surxan/home.dart';
+import 'package:surxan/register.dart';
 
 void main() {
   runApp(const MainApp());
@@ -17,8 +17,8 @@ class MainApp extends StatelessWidget {
 
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(scaffoldBackgroundColor: backgroundColor,),
-        home: Home(),
+        theme: ThemeData(scaffoldBackgroundColor: backgroundColor),
+        home: Register(),
       ),
     );
   }

@@ -16,7 +16,7 @@ class _LeftSideState extends State<LeftSide> {
     return Container(
       height: size.height,
       width: size.width * 0.17,
-      padding: EdgeInsets.symmetric(vertical: 40,),
+      padding: EdgeInsets.symmetric(vertical: 40),
       color: textcolor,
       child: Container(
         width: size.width,
@@ -32,7 +32,9 @@ class _LeftSideState extends State<LeftSide> {
             Expanded(child: SizedBox()),
 
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: Row(
                 children: [
                   Icon(Icons.logout, color: Colors.white),
