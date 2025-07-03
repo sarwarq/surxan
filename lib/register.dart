@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:surxan/boshqa/sotuv.dart';
 import 'package:surxan/data.dart';
 import 'package:surxan/home.dart';
 
@@ -15,10 +16,17 @@ class _RegisterState extends State<Register> {
   void checkText() {
     setState(() {
       if (textcontroller.text == "Sarvar" &&
-          passwordcontroller.text == "123456") {
+          passwordcontroller.text == "12345") {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Home()),
+        );
+      }
+      if (textcontroller.text == "Shaxboz" &&
+          passwordcontroller.text == "12345") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Sotuv()),
         );
       } else {
         textcontroller.clear();

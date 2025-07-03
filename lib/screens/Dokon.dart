@@ -1,3 +1,4 @@
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:surxan/data.dart';
@@ -10,6 +11,22 @@ class Dokon extends StatefulWidget {
 }
 
 class _DokonState extends State<Dokon> {
+  TextEditingController textController = TextEditingController();
+
+  List<Tovar> filteredList = [];
+  @override
+  void initState() {
+    super.initState();
+    filteredList = tovarlar;
+  }
+
+  Future<List<Tovar>> searchProducts(String search) async {
+    await Future.delayed(Duration(milliseconds: 300));
+    return tovarlar.where((product) {
+      return product.tovarNomi!.toLowerCase().contains(search.toLowerCase());
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -94,24 +111,20 @@ class _DokonState extends State<Dokon> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  width: size.width * 0.18,
-                  child: TextField(
-                    cursorHeight: 15,
-                    cursorColor: Colors.black,
-
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      constraints: BoxConstraints(maxHeight: 30),
-                      hintText: "Search",
-                      hintStyle: TextStyle(fontSize: 13, height: 0),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
+                AnimSearchBar(
+                  width: size.width * 0.23,
+                  textController: textController,
+                  onSuffixTap: () {
+                    setState(() {
+                      textController.clear();
+                    });
+                  },
+                  onSubmitted: (search) async {
+                    final result = await searchProducts(search);
+                    setState(() {
+                      filteredList = result;
+                    });
+                  },
                 ),
                 SizedBox(
                   child: Row(
@@ -168,62 +181,51 @@ class _DokonState extends State<Dokon> {
             ),
             SizedBox(height: size.height * 0.025),
 
-            Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    border: Border.all(color: Colors.black87, width: 1),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columnSpacing: 100,
+                    dataRowHeight: 35,
+                    border: TableBorder.all(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      color: Colors.black54,
+                      width: 1,
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Expanded(flex: 1, child: Text("№")),
-                        Expanded(flex: 3, child: Text("Tovar nomi")),
-                        Expanded(flex: 3, child: Text("Mijoz")),
-                        Expanded(flex: 3, child: Text("Qoldiq")),
-                        Expanded(flex: 3, child: Text("Sotilgan vaqti")),
-                        Expanded(flex: 2, child: Text("Narx")),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: size.height *0.75,
-                  child: ListView.builder(
-                    itemCount: tovarlar.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.black87, width: 1),
-                            left: BorderSide(color: Colors.black87, width: 1),
-                            right: BorderSide(color: Colors.black87, width: 1),
+                    columns: [
+                      DataColumn(label: Text("№")),
+                      DataColumn(label: Text("Tovar nomi")),
+                      DataColumn(label: Text("Mijoz")),
+                      DataColumn(label: Text("Qoldiq")),
+                      DataColumn(label: Text("Sotilgan vaqti")),
+                      DataColumn(label: Text("Narx")),
+                    ],
+                    rows: List.generate(tovarlar.length, (index) {
+                      return DataRow(
+                        cells: [
+                          DataCell(Text((index + 1).toString())),
+                          DataCell(Text(tovarlar[index].tovarNomi!)),
+                          DataCell(Text(tovarlar[index].mijoz!)),
+                          DataCell(Text(tovarlar[index].qoldiq!.toString())),
+                          DataCell(Text(tovarlar[index].sotilganVaqti!)),
+                          DataCell(
+                            Text(
+                              NumberFormat.decimalPattern(
+                                "ru",
+                              ).format(tovarlar[index].narx!),
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Expanded(flex: 1, child: Text(index.toString())),
-                              Expanded(flex: 3, child: Text(tovarlar[index].tovarNomi!, style: textStyle,)),
-                              Expanded(flex: 3, child: Text(tovarlar[index].mijoz!, style: textStyle,)),
-                              Expanded(flex: 3, child: Text(tovarlar[index].qoldiq!.toInt().toString(), style: textStyle,)),
-                              Expanded(flex: 3, child: Text(tovarlar[index].sotilganVaqti!, style: textStyle,)),
-                              Expanded(flex: 2, child: Text(NumberFormat.decimalPattern("ru").format(tovarlar[index].narx!), style: textStyle,)),
-                            ],
-                          ),
-                        ),
+                        ],
                       );
-                    },
+                    }),
                   ),
                 ),
-              ],
+              ),
             ),
           ],
         ),
