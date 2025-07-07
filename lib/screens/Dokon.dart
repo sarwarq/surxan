@@ -77,6 +77,9 @@ class _DokonState extends State<Dokon> {
                       ),
                       SizedBox(width: 14),
                       InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
                         child: Container(
                           padding: EdgeInsets.symmetric(
                             vertical: 5,
@@ -92,7 +95,7 @@ class _DokonState extends State<Dokon> {
                               Icon(Icons.add, color: Colors.white),
                               SizedBox(width: 4),
                               Text(
-                                "Add New",
+                                "Back",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -201,8 +204,8 @@ class _DokonState extends State<Dokon> {
                       DataColumn(label: Text("№")),
                       DataColumn(label: Text("Tovar nomi")),
                       DataColumn(label: Text("Mijoz")),
-                      DataColumn(label: Text("Qoldiq")),
                       DataColumn(label: Text("Sotilgan vaqti")),
+                      DataColumn(label: Text("Miqdori")),
                       DataColumn(label: Text("Narx")),
                     ],
                     rows: List.generate(tovarlar.length, (index) {
@@ -211,8 +214,8 @@ class _DokonState extends State<Dokon> {
                           DataCell(Text((index + 1).toString())),
                           DataCell(Text(tovarlar[index].tovarNomi!)),
                           DataCell(Text(tovarlar[index].mijoz!)),
-                          DataCell(Text(tovarlar[index].qoldiq!.toString())),
                           DataCell(Text(tovarlar[index].sotilganVaqti!)),
+                          DataCell(Text(tovarlar[index].sotilishMiqdori.toString())),
                           DataCell(
                             Text(
                               NumberFormat.decimalPattern(

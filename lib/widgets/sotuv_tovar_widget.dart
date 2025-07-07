@@ -4,14 +4,109 @@ import 'package:intl/intl.dart';
 import 'package:surxan/data.dart';
 
 class SotuvTovar extends StatefulWidget {
-  const SotuvTovar({super.key});
+  int index;
+  final VoidCallback onDelete;
+  SotuvTovar({super.key, required this.index, required this.onDelete});
 
   @override
   State<SotuvTovar> createState() => _SotuvTovarState();
 }
 
 class _SotuvTovarState extends State<SotuvTovar> {
-  int num = 1;
+  bool Merror = false;
+  bool item = false;
+  String? selectedValue;
+  TextEditingController Mijoz = TextEditingController();
+
+  void showdialog() {
+    TextEditingController Tovarnomi = TextEditingController(
+      text: tovarlarRoyxati[widget.index].tovarNomi,
+    );
+    TextEditingController Tovarnarxi = TextEditingController(
+      text: tovarlarRoyxati[widget.index].narx!.toInt().toString(),
+    );
+    TextEditingController Tovarmiqdori = TextEditingController(
+      text: tovarlarRoyxati[widget.index].qoldiq!.toInt().toString(),
+    );
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Container(
+            height: MediaQuery.of(context).size.height * 0.35,
+            width: MediaQuery.of(context).size.width * 0.3,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextField(
+                  controller: Tovarnomi,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(),
+                    hintText: "Tovar Nomi",
+                  ),
+                ),
+                TextField(
+                  controller: Tovarnarxi,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(),
+                    hintText: "Narx",
+                  ),
+                ),
+                TextField(
+                  controller: Tovarmiqdori,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(),
+                    hintText: "Miqdor",
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          tovarlarRoyxati[widget.index] = Tovar(
+                            tovarNomi: Tovarnomi.text,
+                            mijoz: "",
+                            qoldiq: double.tryParse(Tovarmiqdori.text),
+                            sotilganVaqti: "",
+                            narx: double.tryParse(Tovarnarxi.text),
+                          );
+
+                          Tovarmiqdori.clear();
+                          Tovarnarxi.clear();
+                          Tovarnomi.clear();
+                          Navigator.of(context).pop();
+                        });
+                      },
+                      child: Text(
+                        "Tahrirlash",
+                        style: TextStyle(color: textcolor),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        "Chiqish",
+                        style: TextStyle(color: textcolor),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -20,51 +115,80 @@ class _SotuvTovarState extends State<SotuvTovar> {
       height: size.height * 0.55,
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black45, width: 1),
+        color: Colors.white,
+        border: Border.all(color: Colors.black26, width: 1),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
+          Container(
             height: size.height * 0.27,
             width: size.width * 0.8,
-            child: CachedNetworkImage(
-              imageUrl:
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(
                   "https://ecommerce.datablitz.com.ph/cdn/shop/products/ssd-plus-sata-iii-ssd-left.png.wdthumb.1280.1280_1_9878ef4a-d7e9-4811-a4f2-0a7b57104fbd.png?v=1676912917",
-              progressIndicatorBuilder: (_, url, progress) {
-                if (progress.progress != null) {
-                  final percent = progress.progress! * 100;
-                  return Text("${percent}% done loading");
-                }
-                return Text("Loaded $url!");
-              },
-              fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                PopupMenuButton(
+                  position: PopupMenuPosition.under,
+                  offset: Offset(-80, 0),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(value: "item1", child: Text("Rasm joylash")),
+                    PopupMenuItem(value: "item2", child: Text("Tahrirlash")),
+                    PopupMenuItem(value: "item3", child: Text("O'chirish")),
+                  ],
+                  onSelected: (value) {
+                    if (value == "item1") {
+                      //
+                    } else if (value == "item2") {
+                      showdialog();
+                    } else if (value == "item3") {
+                      if (0 <= widget.index &&
+                          widget.index < tovarlarRoyxati.length) {
+                        widget.onDelete();
+                      }
+                    }
+                  },
+                ),
+              ],
             ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                NumberFormat.decimalPattern("ru").format(120000),
+                NumberFormat.decimalPattern(
+                  "ru",
+                ).format(tovarlarRoyxati[widget.index].narx! * sotilishMiqdori),
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                   color: Colors.blue[300],
                 ),
               ),
-              CircleAvatar(
-                backgroundColor: Colors.blue[100],
-                radius: 15,
+              Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.blue[100],
+                  shape: BoxShape.circle,
+                ),
                 child: Text(
-                  "10",
+                  tovarlarRoyxati[widget.index].qoldiq!.toInt().toString(),
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
             ],
           ),
           Text(
-            "SSD",
+            tovarlarRoyxati[widget.index].tovarNomi!,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w600,
               color: textcolor,
@@ -77,10 +201,17 @@ class _SotuvTovarState extends State<SotuvTovar> {
                 width: size.width * 0.1,
                 //height: size.height * 0.035,
                 child: TextField(
+                  controller: Mijoz,
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: Merror
+                          ? BorderSide(color: Colors.red)
+                          : BorderSide(color: Colors.black38),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -93,7 +224,9 @@ class _SotuvTovarState extends State<SotuvTovar> {
                 width: size.width * 0.07,
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black54, width: 1),
+                  border: item
+                      ? Border.all(color: Colors.red, width: 1)
+                      : Border.all(color: Colors.black54, width: 1),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
@@ -102,18 +235,21 @@ class _SotuvTovarState extends State<SotuvTovar> {
                     InkWell(
                       onTap: () {
                         setState(() {
-                          if (num > 1) {
-                            num--;
+                          if (sotilishMiqdori > 1) {
+                            sotilishMiqdori = sotilishMiqdori - 1;
                           }
                         });
                       },
                       child: Icon(Icons.remove),
                     ),
-                    Text(num.toString(), style: TextStyle(fontSize: 22)),
+                    Text(
+                      sotilishMiqdori.toString(),
+                      style: TextStyle(fontSize: 22),
+                    ),
                     InkWell(
                       onTap: () {
                         setState(() {
-                          num++;
+                          sotilishMiqdori = sotilishMiqdori + 1;
                         });
                       },
                       child: Icon(Icons.add),
@@ -127,7 +263,49 @@ class _SotuvTovarState extends State<SotuvTovar> {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      if (Mijoz.text.isNotEmpty &&
+                          sotilishMiqdori <=
+                              tovarlarRoyxati[widget.index].qoldiq!
+                                  .toDouble() &&
+                          tovarlarRoyxati[widget.index].qoldiq! > 0) {
+                        tovarlar.add(
+                          Tovar(
+                            tovarNomi: tovarlarRoyxati[widget.index].tovarNomi,
+                            mijoz: Mijoz.text,
+                            qoldiq:
+                                tovarlarRoyxati[widget.index].qoldiq! -
+                                sotilishMiqdori,
+                            sotilganVaqti: "",
+                            sotilishMiqdori: sotilishMiqdori,
+                            narx:
+                                tovarlarRoyxati[widget.index].narx! *
+                                sotilishMiqdori,
+                          ),
+                        );
+                        tovarlarRoyxati[widget.index].qoldiq =
+                            tovarlarRoyxati[widget.index].qoldiq! -
+                            sotilishMiqdori;
+                        Mijoz.clear();
+                        Merror = false;
+                        item = false;
+                        sotilishMiqdori = 1;
+                      } else {
+                        if (Mijoz.text.isEmpty) {
+                          Merror = true;
+                        } else {
+                          Merror = false;
+                        }
+                        if (sotilishMiqdori! >
+                            tovarlarRoyxati[widget.index].qoldiq!.toDouble()) {
+                          item = true;
+                        } else {
+                          item = false;
+                        }
+                      }
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightBlue,
                     padding: EdgeInsets.symmetric(vertical: 20),
