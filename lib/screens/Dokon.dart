@@ -4,7 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:surxan/data.dart';
 
 class Dokon extends StatefulWidget {
-  Dokon({super.key});
+  bool direktor;
+  Dokon({super.key, required this.direktor});
 
   @override
   State<Dokon> createState() => _DokonState();
@@ -17,12 +18,12 @@ class _DokonState extends State<Dokon> {
   @override
   void initState() {
     super.initState();
-    filteredList = tovarlar;
+    filteredList = SotilganTovarlar;
   }
 
   Future<List<Tovar>> searchProducts(String search) async {
     await Future.delayed(Duration(milliseconds: 300));
-    return tovarlar.where((product) {
+    return SotilganTovarlar.where((product) {
       return product.tovarNomi!.toLowerCase().contains(search.toLowerCase());
     }).toList();
   }
@@ -76,34 +77,41 @@ class _DokonState extends State<Dokon> {
                         ),
                       ),
                       SizedBox(width: 14),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.purple[800],
-                            border: Border.all(color: Colors.black38, width: 1),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.add, color: Colors.white),
-                              SizedBox(width: 4),
-                              Text(
-                                "Back",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
+                      SizedBox(
+                        child: (widget.direktor)
+                            ? null
+                            : InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 5,
+                                    horizontal: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.purple[800],
+                                    border: Border.all(
+                                      color: Colors.black38,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.add, color: Colors.white),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        "Back",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
                       ),
                     ],
                   ),
@@ -208,19 +216,27 @@ class _DokonState extends State<Dokon> {
                       DataColumn(label: Text("Miqdori")),
                       DataColumn(label: Text("Narx")),
                     ],
-                    rows: List.generate(tovarlar.length, (index) {
+                    rows: List.generate(SotilganTovarlar.length, (index) {
                       return DataRow(
                         cells: [
                           DataCell(Text((index + 1).toString())),
-                          DataCell(Text(tovarlar[index].tovarNomi!)),
-                          DataCell(Text(tovarlar[index].mijoz!)),
-                          DataCell(Text(tovarlar[index].sotilganVaqti!)),
-                          DataCell(Text(tovarlar[index].sotilishMiqdori.toString())),
+                          DataCell(Text(SotilganTovarlar[index].tovarNomi!)),
+                          DataCell(Text(SotilganTovarlar[index].mijoz!)),
+                          DataCell(
+                            Text(SotilganTovarlar[index].sotilganVaqti!),
+                          ),
+                          DataCell(
+                            Text(
+                              SotilganTovarlar[index].miqdor!
+                                  .toInt()
+                                  .toString(),
+                            ),
+                          ),
                           DataCell(
                             Text(
                               NumberFormat.decimalPattern(
                                 "ru",
-                              ).format(tovarlar[index].narx!),
+                              ).format(SotilganTovarlar[index].narx!),
                             ),
                           ),
                         ],

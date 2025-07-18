@@ -5,118 +5,31 @@ import 'package:surxan/data.dart';
 
 class SotuvTovar extends StatefulWidget {
   int index;
-  final VoidCallback onDelete;
-  SotuvTovar({super.key, required this.index, required this.onDelete});
+  SotuvTovar({super.key, required this.index});
 
   @override
   State<SotuvTovar> createState() => _SotuvTovarState();
 }
 
 class _SotuvTovarState extends State<SotuvTovar> {
-  bool Merror = false;
-  bool item = false;
-  String? selectedValue;
   TextEditingController Mijoz = TextEditingController();
-
-  void showdialog() {
-    TextEditingController Tovarnomi = TextEditingController(
-      text: tovarlarRoyxati[widget.index].tovarNomi,
-    );
-    TextEditingController Tovarnarxi = TextEditingController(
-      text: tovarlarRoyxati[widget.index].narx!.toInt().toString(),
-    );
-    TextEditingController Tovarmiqdori = TextEditingController(
-      text: tovarlarRoyxati[widget.index].qoldiq!.toInt().toString(),
-    );
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          content: Container(
-            height: MediaQuery.of(context).size.height * 0.35,
-            width: MediaQuery.of(context).size.width * 0.3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextField(
-                  controller: Tovarnomi,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(),
-                    hintText: "Tovar Nomi",
-                  ),
-                ),
-                TextField(
-                  controller: Tovarnarxi,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(),
-                    hintText: "Narx",
-                  ),
-                ),
-                TextField(
-                  controller: Tovarmiqdori,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(),
-                    hintText: "Miqdor",
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          tovarlarRoyxati[widget.index] = Tovar(
-                            tovarNomi: Tovarnomi.text,
-                            mijoz: "",
-                            qoldiq: double.tryParse(Tovarmiqdori.text),
-                            sotilganVaqti: "",
-                            narx: double.tryParse(Tovarnarxi.text),
-                          );
-
-                          Tovarmiqdori.clear();
-                          Tovarnarxi.clear();
-                          Tovarnomi.clear();
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      child: Text(
-                        "Tahrirlash",
-                        style: TextStyle(color: textcolor),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        "Chiqish",
-                        style: TextStyle(color: textcolor),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  bool MijozisEmpty = false;
+  int sotilishMiqdor = 1;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Container(
       height: size.height * 0.55,
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.black26, width: 1),
+        border: Border.all(
+          color: OmbordagiTovarlar[widget.index].miqdor == 0
+              ? Colors.red
+              : Colors.black26,
+          width: OmbordagiTovarlar[widget.index].miqdor == 0 ? 2 : 1,
+        ),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
@@ -133,41 +46,14 @@ class _SotuvTovarState extends State<SotuvTovar> {
                 ),
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                PopupMenuButton(
-                  position: PopupMenuPosition.under,
-                  offset: Offset(-80, 0),
-                  itemBuilder: (context) => [
-                    PopupMenuItem(value: "item1", child: Text("Rasm joylash")),
-                    PopupMenuItem(value: "item2", child: Text("Tahrirlash")),
-                    PopupMenuItem(value: "item3", child: Text("O'chirish")),
-                  ],
-                  onSelected: (value) {
-                    if (value == "item1") {
-                      //
-                    } else if (value == "item2") {
-                      showdialog();
-                    } else if (value == "item3") {
-                      if (0 <= widget.index &&
-                          widget.index < tovarlarRoyxati.length) {
-                        widget.onDelete();
-                      }
-                    }
-                  },
-                ),
-              ],
-            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                NumberFormat.decimalPattern(
-                  "ru",
-                ).format(tovarlarRoyxati[widget.index].narx! * sotilishMiqdori),
+                NumberFormat.decimalPattern("ru").format(
+                  OmbordagiTovarlar[widget.index].narx! * sotilishMiqdor,
+                ),
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
@@ -181,14 +67,14 @@ class _SotuvTovarState extends State<SotuvTovar> {
                   shape: BoxShape.circle,
                 ),
                 child: Text(
-                  tovarlarRoyxati[widget.index].qoldiq!.toInt().toString(),
+                  OmbordagiTovarlar[widget.index].miqdor!.toString(),
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
             ],
           ),
           Text(
-            tovarlarRoyxati[widget.index].tovarNomi!,
+            OmbordagiTovarlar[widget.index].tovarNomi!,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w600,
               color: textcolor,
@@ -209,7 +95,7 @@ class _SotuvTovarState extends State<SotuvTovar> {
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: Merror
+                      borderSide: MijozisEmpty
                           ? BorderSide(color: Colors.red)
                           : BorderSide(color: Colors.black38),
                     ),
@@ -221,38 +107,37 @@ class _SotuvTovarState extends State<SotuvTovar> {
                 ),
               ),
               Container(
-                width: size.width * 0.07,
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  border: item
-                      ? Border.all(color: Colors.red, width: 1)
-                      : Border.all(color: Colors.black54, width: 1),
+                  border: Border.all(color: Colors.black54, width: 1),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    InkWell(
-                      onTap: () {
+                    IconButton(
+                      onPressed: () {
                         setState(() {
-                          if (sotilishMiqdori > 1) {
-                            sotilishMiqdori = sotilishMiqdori - 1;
+                          if (OmbordagiTovarlar[widget.index].miqdor! >
+                              sotilishMiqdor) {
+                            sotilishMiqdor += 1;
                           }
                         });
                       },
-                      child: Icon(Icons.remove),
+                      icon: Icon(Icons.add),
                     ),
                     Text(
-                      sotilishMiqdori.toString(),
-                      style: TextStyle(fontSize: 22),
+                      sotilishMiqdor.toString(),
+                      style: TextStyle(fontSize: 24),
                     ),
-                    InkWell(
-                      onTap: () {
+                    IconButton(
+                      onPressed: () {
                         setState(() {
-                          sotilishMiqdori = sotilishMiqdori + 1;
+                          if (sotilishMiqdor > 1) {
+                            sotilishMiqdor -= 1;
+                          }
                         });
                       },
-                      child: Icon(Icons.add),
+                      icon: Icon(Icons.remove),
                     ),
                   ],
                 ),
@@ -265,44 +150,28 @@ class _SotuvTovarState extends State<SotuvTovar> {
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      if (Mijoz.text.isNotEmpty &&
-                          sotilishMiqdori <=
-                              tovarlarRoyxati[widget.index].qoldiq!
-                                  .toDouble() &&
-                          tovarlarRoyxati[widget.index].qoldiq! > 0) {
-                        tovarlar.add(
-                          Tovar(
-                            tovarNomi: tovarlarRoyxati[widget.index].tovarNomi,
+                      if (Mijoz.text.isEmpty) {
+                        MijozisEmpty = true;
+                      } else if (!(OmbordagiTovarlar[widget.index].miqdor ==
+                          0)) {
+                        SotilganTovarlar.add(
+                          SotilganTovar(
                             mijoz: Mijoz.text,
-                            qoldiq:
-                                tovarlarRoyxati[widget.index].qoldiq! -
-                                sotilishMiqdori,
-                            sotilganVaqti: "",
-                            sotilishMiqdori: sotilishMiqdori,
+                            tovarNomi:
+                                OmbordagiTovarlar[widget.index].tovarNomi,
+                            miqdor: sotilishMiqdor,
                             narx:
-                                tovarlarRoyxati[widget.index].narx! *
-                                sotilishMiqdori,
+                                OmbordagiTovarlar[widget.index].narx! *
+                                sotilishMiqdor,
+                            sotilganVaqti: "",
                           ),
                         );
-                        tovarlarRoyxati[widget.index].qoldiq =
-                            tovarlarRoyxati[widget.index].qoldiq! -
-                            sotilishMiqdori;
                         Mijoz.clear();
-                        Merror = false;
-                        item = false;
-                        sotilishMiqdori = 1;
-                      } else {
-                        if (Mijoz.text.isEmpty) {
-                          Merror = true;
-                        } else {
-                          Merror = false;
-                        }
-                        if (sotilishMiqdori! >
-                            tovarlarRoyxati[widget.index].qoldiq!.toDouble()) {
-                          item = true;
-                        } else {
-                          item = false;
-                        }
+                        MijozisEmpty = false;
+                        OmbordagiTovarlar[widget.index].miqdor =
+                            OmbordagiTovarlar[widget.index].miqdor! -
+                            sotilishMiqdor;
+                        sotilishMiqdor = 1;
                       }
                     });
                   },

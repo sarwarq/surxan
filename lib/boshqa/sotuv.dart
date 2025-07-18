@@ -1,7 +1,12 @@
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:surxan/data.dart';
+import 'package:surxan/register.dart';
 import 'package:surxan/screens/Dokon.dart';
+import 'package:surxan/screens/Omborxona.dart';
+import 'package:surxan/widgets/drawerS.dart';
 import 'package:surxan/widgets/sotuv_tovar_widget.dart';
 
 class Sotuv extends StatefulWidget {
@@ -12,152 +17,62 @@ class Sotuv extends StatefulWidget {
 }
 
 class _SotuvState extends State<Sotuv> {
-  void showdialog() {
-    TextEditingController Tovarnomi = TextEditingController();
-    TextEditingController Tovarnarxi = TextEditingController();
-    TextEditingController Tovarmiqdori = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          content: Container(
-            height: MediaQuery.of(context).size.height * 0.35,
-            width: MediaQuery.of(context).size.width * 0.3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextField(
-                  controller: Tovarnomi,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(),
-                    hintText: "Tovar Nomi",
-                  ),
-                ),
-                TextField(
-                  controller: Tovarnarxi,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(),
-                    hintText: "Narx",
-                  ),
-                ),
-                TextField(
-                  controller: Tovarmiqdori,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(),
-                    hintText: "Miqdor",
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          tovarlarRoyxati.add(
-                            Tovar(
-                              tovarNomi: Tovarnomi.text,
-                              mijoz: "",
-                              qoldiq: double.tryParse(Tovarmiqdori.text),
-                              sotilganVaqti: "",
-                              narx: double.tryParse(Tovarnarxi.text),
-                            ),
-                          );
-                          Tovarmiqdori.clear();
-                          Tovarnarxi.clear();
-                          Tovarnomi.clear();
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      child: Text(
-                        "Saqlash",
-                        style: TextStyle(color: textcolor),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        "Chiqish",
-                        style: TextStyle(color: textcolor),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  List bar = ["assets/icons/main/Shop.png", "assets/icons/main/Warehouse.png"];
+  List barText = ["Do'kon", "Omborxona"];
+  List klas = [Sotuv(), Omborxona(direktor: false,)];
+  TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 222, 219, 219),
+        centerTitle: true,
+        title: Text(
+          "Do'kon",
+          style: TextStyle(
+            color: textcolor,
+            fontSize: 35,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actions: [
+          AnimSearchBar(
+            width: 320,
+
+            rtl: true,
+            textController: textController,
+            onSuffixTap: () {
+              setState(() {
+                textController.clear();
+              });
+            },
+            onSubmitted: (search) {},
+          ),
+          SizedBox(width: 5),
+          Container(
+            padding: EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (context) => Dokon(direktor: false,)));
+              },
+              icon: Icon(Icons.history, size: 28.spMax, color: Colors.black),
+            ),
+          ),
+        ],
+      ),
+      drawer:Drawers(),
       body: Padding(
         padding: EdgeInsets.all(25),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: size.width * 0.3,
-                  child: TextField(
-                    scrollPadding: EdgeInsets.all(0),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      hintText: "Search",
-                    ),
-                  ),
-                ),
-
-                SizedBox(
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Dokon()),
-                          );
-                        },
-                        icon: Icon(Icons.history),
-                      ),
-                      SizedBox(width: 5),
-                      ElevatedButton(
-                        onPressed: () {
-                          showdialog();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(5),
-                          ),
-                          elevation: 2,
-                        ),
-                        child: Text(
-                          "Qo'shish",
-                          style: Theme.of(
-                            context,
-                          ).textTheme.labelLarge?.copyWith(color: textcolor),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20),
@@ -167,13 +82,11 @@ class _SotuvState extends State<Sotuv> {
                   ),
                   mainAxisSpacing: 15,
                   crossAxisSpacing: 15,
-                  itemCount: tovarlarRoyxati.length,
+                  itemCount: OmbordagiTovarlar.length,
                   itemBuilder: (context, index) {
-                    return SotuvTovar(index: index, onDelete: () {
-                       setState(() {
-                          tovarlarRoyxati.removeAt(index);
-                        });
-                    },);
+                    return SotuvTovar(
+                      index: index,
+                    );
                   },
                 ),
               ),

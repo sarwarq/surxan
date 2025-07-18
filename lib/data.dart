@@ -11,8 +11,7 @@ Color? backgroundColor = const Color.fromARGB(255, 231, 236, 240);
 Color? textcolor = const Color.fromARGB(255, 8, 31, 71);
 
 TextStyle textStyle = TextStyle(color: textcolor, fontWeight: FontWeight.w600);
-
-int sotilishMiqdori = 1;
+double foyda = 1.2;
 
 List mainscreenIcon = [
   "assets/icons/main/Main.png",
@@ -35,8 +34,8 @@ List mainscreenIconName = [
 List screens = [
   Asosiy(),
   Xizmat(),
-  Dokon(),
-  Omborxona(),
+  Dokon(direktor: true,),
+  Omborxona(direktor: true),
   Xodimlar(),
   Kassaaparat(),
 ];
@@ -62,40 +61,55 @@ class Services {
 
 class Tovar {
   String? tovarNomi;
-  String? mijoz;
-  double? qoldiq;
+  int? miqdor;
   String? sotilganVaqti;
   double? narx;
-  int? sotilishMiqdori;
+
   Tovar({
     required this.tovarNomi,
-    required this.mijoz,
-    required this.qoldiq,
-    required this.sotilganVaqti,
+    required this.miqdor,
+    this.sotilganVaqti,
     required this.narx,
-    this.sotilishMiqdori
   });
 }
 
-List<Tovar> tovarlar = [
-  Tovar(
+class SotilganTovar extends Tovar {
+  String? mijoz;
+  SotilganTovar({
+    required super.sotilganVaqti,
+    required this.mijoz,
+    required super.tovarNomi,
+    required super.miqdor,
+    required super.narx,
+  });
+}
+
+class OmbordagiTovar extends Tovar {
+  double? tannarx;
+  OmbordagiTovar({
+    required this.tannarx,
+    required super.tovarNomi,
+    required super.miqdor,
+    required super.narx,
+  });
+}
+
+List<SotilganTovar> SotilganTovarlar = [
+  SotilganTovar(
     tovarNomi: "Kartredj",
-    mijoz: "Sarvar",
-    qoldiq: 12,
+    miqdor: 12,
     sotilganVaqti: "12.02.2025",
     narx: 120000,
-    sotilishMiqdori: 1
+    mijoz: "Sarvar",
   ),
-  Tovar(
+  SotilganTovar(
     tovarNomi: "SSD",
-    mijoz: "Shuhrat",
-    qoldiq: 50,
+    miqdor: 50,
     sotilganVaqti: "16.02.2025",
     narx: 170000,
-    sotilishMiqdori: 1
+    mijoz: "Sarvar",
   ),
 ];
-List<Tovar> tovarlarRoyxati = [];
 
 List<Services> kirimlar = [
   Services(
@@ -115,5 +129,14 @@ List<Services> kirimlar = [
     money: 0,
     product: "Kassa aparat",
     productcolor: [Colors.deepPurple[200], Colors.deepPurple[900]],
+  ),
+];
+
+List<OmbordagiTovar> OmbordagiTovarlar = [
+  OmbordagiTovar(
+    tovarNomi: "SSD",
+    miqdor: 10,
+    tannarx: 100000,
+    narx: 100000 * foyda,
   ),
 ];
