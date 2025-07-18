@@ -114,13 +114,73 @@ class _OmborxonaState extends State<Omborxona> {
       body: SizedBox(
         width: double.maxFinite,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
-            crossAxisAlignment: widget.direktor!
-                ? CrossAxisAlignment.start
-                : CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 90),
+              SizedBox(
+                child: widget.direktor!
+                    ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Omborxona",
+                            style: TextStyle(
+                              fontSize: 29,
+                              color: textcolor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(
+                            child: Row(
+                              children: [
+                                AnimSearchBar(
+                                  width: 320,
+                                  color: Colors.black54,
+                                  searchIconColor: Colors.white,
+                                  rtl: true,
+                                  textController: textController,
+                                  onSuffixTap: () {
+                                    setState(() {
+                                      textController.clear();
+                                    });
+                                  },
+                                  onSubmitted: (search) {},
+                                ),
+                                SizedBox(width: 9),
+                                MaterialButton(
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Showdialog(
+                                          onSave: onSave,
+                                          Tovarmiqdori: Tovarmiqdori,
+                                          Tovarnarxi: Tovarnarxi,
+                                          Tovarnomi: Tovarnomi,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  color: Colors.indigoAccent,
+                                  padding: EdgeInsets.all(18),
+                                  child: Text(
+                                    "Qo'shish",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: textcolor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    : null,
+              ),
+              SizedBox(height: 50),
               DataTable(
                 border: TableBorder.all(
                   borderRadius: BorderRadius.only(
@@ -135,7 +195,9 @@ class _OmborxonaState extends State<Omborxona> {
                     label: Row(
                       children: [
                         Text("Tovar nomi"),
-                        SizedBox(width: MediaQuery.of(context).size.width * 0.4),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                        ),
                       ],
                     ),
                   ),
@@ -149,7 +211,9 @@ class _OmborxonaState extends State<Omborxona> {
                       DataCell(Text((index + 1).toString())),
                       DataCell(Text(OmbordagiTovarlar[index].tovarNomi!)),
                       DataCell(
-                        Text(OmbordagiTovarlar[index].miqdor!.toInt().toString()),
+                        Text(
+                          OmbordagiTovarlar[index].miqdor!.toInt().toString(),
+                        ),
                       ),
                       DataCell(
                         Text(
