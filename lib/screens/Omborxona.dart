@@ -2,13 +2,12 @@ import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:surxan/data.dart';
-import 'package:surxan/screens/Dokon.dart';
 import 'package:surxan/widgets/drawerS.dart';
 import 'package:surxan/widgets/showdialog.dart';
 
 class Omborxona extends StatefulWidget {
-  bool? direktor;
-  Omborxona({super.key, required this.direktor});
+  final bool? direktor;
+  const Omborxona({super.key, required this.direktor});
 
   @override
   State<Omborxona> createState() => _OmborxonaState();

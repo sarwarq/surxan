@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:surxan/data.dart';
 
 class Kirim extends StatefulWidget {
-  Axis scroll;
-  Kirim({super.key, required this.scroll});
+  final Axis scroll;
+  const Kirim({super.key, required this.scroll});
 
   @override
   State<Kirim> createState() => _KirimState();

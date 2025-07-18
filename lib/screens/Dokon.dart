@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:surxan/data.dart';
 
 class Dokon extends StatefulWidget {
-  bool direktor;
-  Dokon({super.key, required this.direktor});
+  final bool direktor;
+  const Dokon({super.key, required this.direktor});
 
   @override
   State<Dokon> createState() => _DokonState();

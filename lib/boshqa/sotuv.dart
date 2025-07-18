@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:surxan/data.dart';
-import 'package:surxan/register.dart';
 import 'package:surxan/screens/Dokon.dart';
 import 'package:surxan/screens/Omborxona.dart';
 import 'package:surxan/widgets/drawerS.dart';
@@ -24,7 +23,7 @@ class _SotuvState extends State<Sotuv> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    //Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 222, 219, 219),

@@ -259,7 +259,6 @@ LineChartBarData get lineChartBarData3 => LineChartBarData(
 );*/
 
 import 'package:flutter/material.dart';
-import 'package:surxan/data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Chart extends StatefulWidget {

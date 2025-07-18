@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:surxan/data.dart';
 
 class SotuvTovar extends StatefulWidget {
-  int index;
-  SotuvTovar({super.key, required this.index});
+  final int index;
+  const SotuvTovar({super.key, required this.index});
 
   @override
   State<SotuvTovar> createState() => _SotuvTovarState();

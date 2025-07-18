@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:surxan/data.dart';
 
 class Showdialog extends StatefulWidget {
-  VoidCallback onSave;
-  TextEditingController Tovarnomi;
-  TextEditingController Tovarnarxi;
-  TextEditingController Tovarmiqdori;
-  Showdialog({super.key, required this.onSave, required this.Tovarmiqdori,required this.Tovarnarxi, required this.Tovarnomi});
+  final VoidCallback onSave;
+  final TextEditingController Tovarnomi;
+  final TextEditingController Tovarnarxi;
+  final TextEditingController Tovarmiqdori;
+  const Showdialog({
+    super.key,
+    required this.onSave,
+    required this.Tovarmiqdori,
+    required this.Tovarnarxi,
+    required this.Tovarnomi,
+  });
 
   @override
   State<Showdialog> createState() => _ShowdialogState();
@@ -67,6 +73,5 @@ class _ShowdialogState extends State<Showdialog> {
         ),
       ),
     );
-    ;
   }
 }
