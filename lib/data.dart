@@ -3,7 +3,6 @@ import 'package:surxan/screens/Asosiy.dart';
 import 'package:surxan/screens/Dokon.dart';
 import 'package:surxan/screens/Kassa%20aparat.dart';
 import 'package:surxan/screens/Omborxona.dart';
-
 import 'package:surxan/screens/Xizmat.dart';
 import 'package:surxan/screens/Xodimlar.dart';
 
@@ -94,22 +93,7 @@ class OmbordagiTovar extends Tovar {
   });
 }
 
-List<SotilganTovar> SotilganTovarlar = [
-  SotilganTovar(
-    tovarNomi: "Kartredj",
-    miqdor: 12,
-    sotilganVaqti: "12.02.2025",
-    narx: 120000,
-    mijoz: "Sarvar",
-  ),
-  SotilganTovar(
-    tovarNomi: "SSD",
-    miqdor: 50,
-    sotilganVaqti: "16.02.2025",
-    narx: 170000,
-    mijoz: "Sarvar",
-  ),
-];
+List<SotilganTovar> SotilganTovarlar = [];
 
 List<Services> kirimlar = [
   Services(
@@ -133,10 +117,5 @@ List<Services> kirimlar = [
 ];
 
 List<OmbordagiTovar> OmbordagiTovarlar = [
-  OmbordagiTovar(
-    tovarNomi: "SSD",
-    miqdor: 10,
-    tannarx: 100000,
-    narx: 100000 * foyda,
-  ),
+  
 ];

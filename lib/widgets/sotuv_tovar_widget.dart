@@ -4,8 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:surxan/data.dart';
 
 class SotuvTovar extends StatefulWidget {
-  final int index;
-  const SotuvTovar({super.key, required this.index});
+  final OmbordagiTovar tovar;
+  final VoidCallback onDeleted;
+  const SotuvTovar({super.key, required this.tovar, required this.onDeleted});
 
   @override
   State<SotuvTovar> createState() => _SotuvTovarState();
@@ -25,10 +26,10 @@ class _SotuvTovarState extends State<SotuvTovar> {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
-          color: OmbordagiTovarlar[widget.index].miqdor == 0
+          color: widget.tovar.miqdor == 0
               ? Colors.red
               : Colors.black26,
-          width: OmbordagiTovarlar[widget.index].miqdor == 0 ? 2 : 1,
+          width: widget.tovar.miqdor == 0 ? 2 : 1,
         ),
         borderRadius: BorderRadius.circular(15),
       ),
@@ -52,7 +53,7 @@ class _SotuvTovarState extends State<SotuvTovar> {
             children: [
               Text(
                 NumberFormat.decimalPattern("ru").format(
-                  OmbordagiTovarlar[widget.index].narx! * sotilishMiqdor,
+                  widget.tovar.narx! * sotilishMiqdor,
                 ),
                 style: TextStyle(
                   fontSize: 17,
@@ -67,14 +68,14 @@ class _SotuvTovarState extends State<SotuvTovar> {
                   shape: BoxShape.circle,
                 ),
                 child: Text(
-                  OmbordagiTovarlar[widget.index].miqdor!.toString(),
+                  widget.tovar.miqdor!.toString(),
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
             ],
           ),
           Text(
-            OmbordagiTovarlar[widget.index].tovarNomi!,
+            widget.tovar.tovarNomi!,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w600,
               color: textcolor,
@@ -117,7 +118,7 @@ class _SotuvTovarState extends State<SotuvTovar> {
                     IconButton(
                       onPressed: () {
                         setState(() {
-                          if (OmbordagiTovarlar[widget.index].miqdor! >
+                          if (widget.tovar.miqdor! >
                               sotilishMiqdor) {
                             sotilishMiqdor += 1;
                           }
@@ -152,26 +153,30 @@ class _SotuvTovarState extends State<SotuvTovar> {
                     setState(() {
                       if (Mijoz.text.isEmpty) {
                         MijozisEmpty = true;
-                      } else if (!(OmbordagiTovarlar[widget.index].miqdor ==
+                      } else if (!(widget.tovar.miqdor ==
                           0)) {
                         SotilganTovarlar.add(
                           SotilganTovar(
                             mijoz: Mijoz.text,
                             tovarNomi:
-                                OmbordagiTovarlar[widget.index].tovarNomi,
+                                widget.tovar.tovarNomi,
                             miqdor: sotilishMiqdor,
                             narx:
-                                OmbordagiTovarlar[widget.index].narx! *
+                                widget.tovar.narx! *
                                 sotilishMiqdor,
-                            sotilganVaqti: "",
+                            sotilganVaqti: DateFormat('dd.MM.yyyy HH:mm').format(DateTime.now()),
                           ),
                         );
                         Mijoz.clear();
                         MijozisEmpty = false;
-                        OmbordagiTovarlar[widget.index].miqdor =
-                            OmbordagiTovarlar[widget.index].miqdor! -
+                       widget.tovar.miqdor =
+                            widget.tovar.miqdor! -
                             sotilishMiqdor;
                         sotilishMiqdor = 1;
+                        if ((widget.tovar.miqdor == 0)) {
+                          OmbordagiTovarlar.remove(widget.tovar);
+                          widget.onDeleted;
+                        }
                       }
                     });
                   },

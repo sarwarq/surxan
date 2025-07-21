@@ -21,34 +21,35 @@ class _OmborxonaState extends State<Omborxona> {
   TextEditingController textController = TextEditingController();
 
   void onSave() {
-    for (var i = 0; i < OmbordagiTovarlar.length; i++) {
-      if (OmbordagiTovarlar[i].tovarNomi == Tovarnomi.text) {
-        setState(() {
-          OmbordagiTovarlar[i].miqdor =
-              OmbordagiTovarlar[i].miqdor! + int.tryParse(Tovarmiqdori.text)!;
-          OmbordagiTovarlar[i].tannarx = double.tryParse(Tovarnarxi.text)!;
-          OmbordagiTovarlar[i].narx = double.tryParse(Tovarnarxi.text)! * foyda;
-          Tovarmiqdori.clear();
-          Tovarnarxi.clear();
-          Tovarnomi.clear();
-          Navigator.of(context).pop();
-        });
-      } else {
-        setState(() {
-          OmbordagiTovarlar.add(
-            OmbordagiTovar(
-              tovarNomi: Tovarnomi.text,
-              narx: double.tryParse(Tovarnarxi.text)! * foyda,
-              miqdor: int.tryParse(Tovarmiqdori.text),
-              tannarx: double.tryParse(Tovarnarxi.text),
-            ),
-          );
-          Tovarmiqdori.clear();
-          Tovarnarxi.clear();
-          Tovarnomi.clear();
-          Navigator.of(context).pop();
-        });
-      }
+    int index = OmbordagiTovarlar.indexWhere(
+      (element) => element.tovarNomi == Tovarnomi.text,
+    );
+    if (index != -1) {
+      setState(() {
+        OmbordagiTovarlar[index].miqdor =
+            OmbordagiTovarlar[index].miqdor! + int.tryParse(Tovarmiqdori.text)!;
+        OmbordagiTovarlar[index].tannarx = double.tryParse(Tovarnarxi.text)!;
+        OmbordagiTovarlar[index].narx = double.tryParse(Tovarnarxi.text)! * foyda;
+        Tovarmiqdori.clear();
+        Tovarnarxi.clear();
+        Tovarnomi.clear();
+        Navigator.of(context).pop();
+      });
+    } else {
+      setState(() {
+        OmbordagiTovarlar.add(
+          OmbordagiTovar(
+            tovarNomi: Tovarnomi.text,
+            narx: double.tryParse(Tovarnarxi.text)! * foyda,
+            miqdor: int.tryParse(Tovarmiqdori.text),
+            tannarx: double.tryParse(Tovarnarxi.text),
+          ),
+        );
+        Tovarmiqdori.clear();
+        Tovarnarxi.clear();
+        Tovarnomi.clear();
+        Navigator.of(context).pop();
+      });
     }
   }
 
@@ -120,7 +121,7 @@ class _OmborxonaState extends State<Omborxona> {
               SizedBox(
                 child: widget.direktor!
                     ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "Omborxona",
@@ -148,7 +149,11 @@ class _OmborxonaState extends State<Omborxona> {
                                 ),
                                 SizedBox(width: 9),
                                 MaterialButton(
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
                                   onPressed: () {
                                     showDialog(
                                       context: context,

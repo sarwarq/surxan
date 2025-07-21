@@ -18,7 +18,7 @@ class Sotuv extends StatefulWidget {
 class _SotuvState extends State<Sotuv> {
   List bar = ["assets/icons/main/Shop.png", "assets/icons/main/Warehouse.png"];
   List barText = ["Do'kon", "Omborxona"];
-  List klas = [Sotuv(), Omborxona(direktor: false,)];
+  List klas = [Sotuv(), Omborxona(direktor: false)];
   TextEditingController textController = TextEditingController();
 
   @override
@@ -58,16 +58,18 @@ class _SotuvState extends State<Sotuv> {
             ),
             child: IconButton(
               onPressed: () {
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (context) => Dokon(direktor: false,)));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Dokon(direktor: false),
+                  ),
+                );
               },
               icon: Icon(Icons.history, size: 28.spMax, color: Colors.black),
             ),
           ),
         ],
       ),
-      drawer:Drawers(),
+      drawer: Drawers(),
       body: Padding(
         padding: EdgeInsets.all(25),
         child: Column(
@@ -83,8 +85,10 @@ class _SotuvState extends State<Sotuv> {
                   crossAxisSpacing: 15,
                   itemCount: OmbordagiTovarlar.length,
                   itemBuilder: (context, index) {
+                    final tovar = OmbordagiTovarlar[index];
                     return SotuvTovar(
-                      index: index,
+                      tovar: tovar,
+                      onDeleted: () => setState(() {}),
                     );
                   },
                 ),
